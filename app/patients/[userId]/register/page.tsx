@@ -1,16 +1,17 @@
 import Image from "next/image";
-import Link from "next/link";
-import PatientForm from "@/components/forms/PatientForm";
-import { PasskeyModal } from "@/components/PasskeyModal";
+import { getUser } from "@/lib/actions/patient.actions";
+import RegisterForm from "@/components/forms/RegisterForm";
+import * as Sentry from "@sentry/nextjs";
 
-export default function Home({ searchParams }: SearchParamProps) {
-  const isAdmin = searchParams.admin === "true";
+const Register = async ({ params: { userId } }: SearchParamProps) => {
+  const user = await getUser(userId);
+
+  Sentry.metrics.set("user_view_register", user.name);
 
   return (
     <div className="flex h-screen max-h-screen">
-      {isAdmin && <PasskeyModal />}
       <section className="remove-scrollbar container my-auto">
-        <div className="sub-container max-w-[496px]">
+        <div className="sub-container max-w-[860px]">
           <div className="flex items-center mb-12">
             <Image
               src="/assets/logo.png"
@@ -22,7 +23,7 @@ export default function Home({ searchParams }: SearchParamProps) {
             />
             <h2 className="ml-3 text-2xl">HealthPro</h2>
           </div>
-          <PatientForm />
+          <RegisterForm user={user} />
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="copyright">
               &copy; 2024 HealthPro® | Powered by{" "}
@@ -36,13 +37,11 @@ export default function Home({ searchParams }: SearchParamProps) {
               </a>
               .
             </p>
-            <p className="text-dark-700 text-xs"></p>
-            <Link href="/?admin=true" className="text-green-500">
-              Admin
-            </Link>
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
+
+export default Register;
