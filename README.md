@@ -77,7 +77,7 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/yeranosyan
+git clone https://github.com/Yeranosyan/health-pro
 cd management-system
 ```
 
