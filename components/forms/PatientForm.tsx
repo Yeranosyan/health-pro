@@ -9,18 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FcApproval } from "react-icons/fc";
 import { UserFormValidation } from "@/lib/validation";
 import { createUser } from "@/lib/actions/patient.actions";
-import CustomFormField from "../CustomFormField";
+import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
-
-export enum FormFieldType {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
 
 const PatientForm = () => {
   const router = useRouter();
@@ -35,27 +25,27 @@ const PatientForm = () => {
     },
   });
 
-  async function onSubmit({
-    name,
-    email,
-    phone,
-  }: z.infer<typeof UserFormValidation>) {
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
 
     try {
-      const userData = {
-        name,
-        email,
-        phone,
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
       };
 
-      const user = await createUser(userData);
+      const newUser = await createUser(user);
 
-      if (user) router.push(`/patients/${user.$id}/register`);
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+
+    setIsLoading(false);
+  };
 
   return (
     <Form {...form}>
@@ -80,6 +70,7 @@ const PatientForm = () => {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user icon"
         />
+
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
@@ -89,6 +80,7 @@ const PatientForm = () => {
           iconSrc="/assets/icons/email.svg"
           iconAlt="email icon"
         />
+
         <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}

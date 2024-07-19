@@ -23,7 +23,9 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
             />
             <h2 className="ml-3 text-2xl">HealthPro</h2>
           </div>
+
           <RegisterForm user={user} />
+
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="copyright">
               &copy; 2024 HealthPro® | Powered by{" "}

@@ -23,6 +23,7 @@ export const createAppointment = async (
       appointment
     );
 
+    revalidatePath("/admin");
     return parseStringify(newAppointment);
   } catch (error) {
     console.error("An error occurred while creating a new appointment:", error);
@@ -37,10 +38,11 @@ export const getAppointment = async (appointmentId: string) => {
       APPOINTMENT_COLLECTION_ID!,
       appointmentId
     );
+
     return parseStringify(appointment);
   } catch (error) {
     console.error(
-      "An error occurred while retrieving the appointment details:",
+      "An error occurred while retrieving the existing patient:",
       error
     );
   }

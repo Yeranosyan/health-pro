@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import SubmitButton from "../SubmitButton";
-import CustomFormField from "../CustomFormField";
+import CustomFormField, { FormFieldType } from "../CustomFormField";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FcApproval } from "react-icons/fc";
 import { PatientFormValidation } from "@/lib/validation";
-import { FormFieldType } from "./PatientForm";
 import { registerPatient } from "@/lib/actions/patient.actions";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
