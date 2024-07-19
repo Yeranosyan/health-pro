@@ -8,6 +8,11 @@ import { getRecentAppointments } from "@/lib/actions/appointment.actions";
 const Admin = async () => {
   const appointments = await getRecentAppointments();
 
+  const scheduledCount = appointments?.scheduledCount || 0;
+  const pendingCount = appointments?.pendingCount || 0;
+  const cancelledCount = appointments?.cancelledCount || 0;
+  const documents = appointments?.documents || [];
+
   return (
     <div className="mx-auto flex max-w-6xl flex-col space-y-14">
       <header className="admin-header mt-3">
@@ -38,27 +43,27 @@ const Admin = async () => {
         <section className="admin-stat">
           <StatCard
             type="appointments"
-            count={appointments.scheduledCount}
+            count={scheduledCount}
             label="Scheduled appointments"
             icon="/assets/icons/appointments.svg"
           />
 
           <StatCard
             type="pending"
-            count={appointments.pendingCount}
+            count={pendingCount}
             label="Pending appointments"
             icon="/assets/icons/pending.svg"
           />
 
           <StatCard
             type="cancelled"
-            count={appointments.cancelledCount}
-            label="cancelled appointments"
+            count={cancelledCount}
+            label="Cancelled appointments"
             icon="/assets/icons/cancelled.svg"
           />
         </section>
 
-        <DataTable columns={columns} data={appointments.documents} />
+        <DataTable columns={columns} data={documents} />
       </main>
     </div>
   );
